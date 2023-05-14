@@ -89,7 +89,24 @@ a:visited {
 .workout__title {
   font-size: 1.7rem;
   font-weight: 600;
-  grid-column: 1 / -1;
+  grid-column: 1 / 4;
+  grid-row: 1/2;
+}
+
+.delete__btn {
+  border: none;
+  background-color: #f03e3e;
+  width: 100%;
+  padding: 0.3rem 1.1rem;
+  font-family: inherit;
+  font-size: 1.4rem;
+  border-radius: 3px;
+  transition: all 0.2s;
+  grid-area: 1/4/2/5;
+}
+
+.delete__btn:hover {
+  background-color: #ff6b6b;
 }
 
 .workout__details {
@@ -245,5 +262,9 @@ a:visited {
     padding: 1.5rem;
     padding-bottom: 0rem;
     border-radius: 0rem;
+  }
+
+  .copyright {
+    display: none;
   }
 }

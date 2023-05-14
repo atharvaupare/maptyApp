@@ -57,11 +57,17 @@ class Cycling extends Workout {
 //APPLICATION ARCHITECTURE
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
+
 const inputType = document.querySelector('.form__input--type');
 const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+document.documentElement.style.setProperty(
+  '--scrollbar-width',
+  `${scrollbarWidth}px`
+);
 
 class App {
   #map;
@@ -81,6 +87,7 @@ class App {
     // Toggling between cycling and running
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    containerWorkouts.addEventListener('click', this._deleteWorkout.bind(this));
   }
 
   _getPosition() {
@@ -106,6 +113,8 @@ class App {
         maxZoom: 20,
       }
     ).addTo(this.#map);
+
+    L.control.locate().addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
 
@@ -212,6 +221,7 @@ class App {
   _renderWorkout(workout) {
     let html = `
       <li class="workout workout--${workout.type}" data-id="${workout.id}">
+        <button class="delete__btn" data-testid="delete-btn">Delete</button>
         <h2 class="workout__title">${workout.description}</h2>
         <div class="workout__details">
           <span class="workout__icon">${
@@ -262,9 +272,21 @@ class App {
     form.insertAdjacentHTML('afterend', html);
   }
 
+  _deleteWorkout(e) {
+    const closeEl = e.target.closest('.delete__btn');
+    if (!closeEl) return;
+    const workout = this.#workouts.find(work => work.id === closeEl.dataset.id);
+    const workoutEl = e.target.closest('.workout');
+
+    workoutEl.style.display = 'none';
+    this.#workouts.pop(workout);
+    this._setLocalStorage();
+    location.reload();
+  }
+
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
+    // console.log(workoutEl);
 
     if (!workoutEl) return;
 
@@ -286,7 +308,7 @@ class App {
 
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
-    console.log(data);
+    // console.log(data);
 
     if (!data) return;
 
