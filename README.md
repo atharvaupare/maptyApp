@@ -3,6 +3,5 @@ This app can store workouts like cycling and running. The user can click on the 
 - Used Leaflet Geolocation API
 - Vanilla Javascript
 - Used LocaleStorage to store data
-- Click on the ![Alt text]([image link](https://e7.pngegg.com/pngimages/926/225/png-clipart-computer-icons-arrow-google-maps-navigation-arrow-angle-triangle.png)) to get your precise current location.
 - Added button to delete workout
 - Added responsiveness
